@@ -208,7 +208,7 @@ export default function App() {
               <h2 className="text-2xl font-bold mb-2">Kołnierz {idx + 1}</h2>
               <p className="text-slate-500 font-medium mb-6">
                 Metoda: {
-                  flange.method === 'symmetric' ? 'Symetryczne Zero (Gwiazda)' :
+                  flange.method === 'symmetric' ? 'Symetryczne Zero' :
                   flange.method === 'highest' ? 'Najwyższe Zero (3 punkty)' : 
                   'MNK (Najmniejszych Kwadratów)'
                 }
