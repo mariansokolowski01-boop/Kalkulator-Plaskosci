@@ -372,7 +372,7 @@ export default function App() {
                       disabled={isLocked}
                       className="text-sm border border-slate-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium text-slate-700 disabled:bg-slate-50 disabled:text-slate-400"
                     >
-                      <option value="symmetric">Symetryczne Zero (Gwiazda)</option>
+                      <option value="symmetric">Symetryczne Zero</option>
                       <option value="highest">Najwyższe Zero (3 punkty)</option>
                       <option value="least-squares">MNK (Najmniejszych Kwadratów)</option>
                     </select>
