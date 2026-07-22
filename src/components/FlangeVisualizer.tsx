@@ -16,7 +16,7 @@ export function FlangeVisualizer({ points, maxGap, pointCount = 36 }: FlangeVisu
   return (
     <div className="relative w-full aspect-square flex items-center justify-center p-4 print:p-0" style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}>
       <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full overflow-visible" preserveAspectRatio="xMidYMid meet">
-        <circle cx={center} cy={center} r={radius} fill="none" stroke="#f1f5f9" strokeWidth="40" />
+        <circle cx={center} cy={center} r={radius} fill="none" stroke="#f1f5f9" strokeWidth="60" />
         <circle cx={center} cy={center} r={radius} fill="none" stroke="#e2e8f0" strokeWidth="1" strokeDasharray="5,5" />
         <circle cx={center} cy={center} r="4" fill="#cbd5e1" />
         <text x={center} y={center + 20} textAnchor="middle" className="text-[10px] fill-slate-400 font-medium">Środek</text>
