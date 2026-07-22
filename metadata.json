@@ -1,0 +1,8 @@
+{
+  "name": "Kalkulator Płaskości",
+  "description": "Aplikacja do obliczania i wizualizacji płaskości elementów (np. kołnierzy) na podstawie pomiarów z teodolitu przy użyciu metody najmniejszych kwadratów.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
