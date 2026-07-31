@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Calculator, ArrowRight } from 'lucide-react';
+import { X, Calculator, AlertTriangle } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 interface Props {
@@ -28,6 +28,8 @@ export function TheodoliteCalculator({ onClose }: Props) {
     // H = R_near - d_near * slope
     targetReading = read1 - dist1 * slope;
   }
+
+  const isSuspiciouslySmallBase = !isNaN(distBetween) && distBetween > 0 && distBetween < 100;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm sm:p-6 print:hidden">
@@ -59,7 +61,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
                     value={h1}
                     onChange={e => setH1(e.target.value)}
                     className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
-                    placeholder="np. 357"
+                    placeholder="0"
                   />
                 </div>
                 <div>
@@ -70,7 +72,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
                     value={d1}
                     onChange={e => setD1(e.target.value)}
                     className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
-                    placeholder="np. 2000"
+                    placeholder="0"
                   />
                 </div>
               </div>
@@ -87,7 +89,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
                     value={h2}
                     onChange={e => setH2(e.target.value)}
                     className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
-                    placeholder="np. 645"
+                    placeholder="0"
                   />
                 </div>
                 <div>
@@ -97,11 +99,23 @@ export function TheodoliteCalculator({ onClose }: Props) {
                     inputMode="decimal"
                     value={dBetween}
                     onChange={e => setDBetween(e.target.value)}
-                    className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
-                    placeholder="np. 8000"
+                    className={cn(
+                      "w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:outline-none",
+                      isSuspiciouslySmallBase ? "border-amber-400 focus:ring-amber-500 bg-amber-50" : "border-slate-300 focus:ring-teal-500"
+                    )}
+                    placeholder="0"
                   />
                 </div>
               </div>
+              
+              {isSuspiciouslySmallBase && (
+                <div className="mt-3 flex items-start space-x-2 text-amber-700 bg-amber-100/50 p-2 rounded text-xs font-medium border border-amber-200">
+                  <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <p>
+                    Wpisałeś bazę <strong>{distBetween} mm</strong>. Jeśli miałeś na myśli metry, wpisz <strong>{distBetween * 1000}</strong>.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 
