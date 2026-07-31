@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { calculateFlatness, Point3D, FlatnessResult, CalculationMethod } from './lib/flatness';
 import { FlangeVisualizer } from './components/FlangeVisualizer';
+import { TheodoliteCalculator } from './components/TheodoliteCalculator';
 import { Calculator, Play, RotateCcw, Table2, Printer, Archive, Save, Lock, Unlock, Plus, Trash2, X, Cog } from 'lucide-react';
 import { cn } from './lib/utils';
 
@@ -35,6 +36,7 @@ export default function App() {
   const [isLocked, setIsLocked] = useState(false);
   const [activeTab, setActiveTab] = useState<0 | 1>(0);
   const [showArchive, setShowArchive] = useState(false);
+  const [showTheodolite, setShowTheodolite] = useState(false);
 
   const [archive, setArchive] = useState<BracketRecord[]>(() => {
     const saved = localStorage.getItem('flange-archive');
@@ -310,6 +312,15 @@ export default function App() {
               </button>
 
               <button 
+                onClick={() => setShowTheodolite(true)}
+                className="bg-sky-600 hover:bg-sky-500 text-white px-3 py-2 rounded flex items-center gap-2 transition-colors shrink-0"
+                title="Kalkulator Teodolitu"
+              >
+                <Cog className="w-4 h-4" />
+                <span className="hidden sm:inline text-sm font-medium">Teodolit</span>
+              </button>
+
+              <button 
                 onClick={() => setShowArchive(true)}
                 className="bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white px-3 py-2 rounded flex items-center gap-2 transition-colors shrink-0"
                 title="Archiwum pomiarów"
@@ -566,6 +577,10 @@ export default function App() {
             </div>
           </div>
         </div>
+      )}
+
+      {showTheodolite && (
+        <TheodoliteCalculator onClose={() => setShowTheodolite(false)} />
       )}
     </div>
   );
