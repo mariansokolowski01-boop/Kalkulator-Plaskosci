@@ -7,10 +7,10 @@ interface Props {
 }
 
 export function TheodoliteCalculator({ onClose }: Props) {
-  const [d1, setD1] = useState<string>('2');
-  const [h1, setH1] = useState<string>('357');
-  const [dBetween, setDBetween] = useState<string>('8');
-  const [h2, setH2] = useState<string>('645');
+  const [d1, setD1] = useState<string>('0');
+  const [h1, setH1] = useState<string>('0');
+  const [dBetween, setDBetween] = useState<string>('0');
+  const [h2, setH2] = useState<string>('0');
 
   const dist1 = parseFloat(d1.replace(',', '.'));
   const read1 = parseFloat(h1.replace(',', '.'));
@@ -23,9 +23,10 @@ export function TheodoliteCalculator({ onClose }: Props) {
 
   if (!isNaN(dist1) && !isNaN(read1) && !isNaN(distBetween) && !isNaN(read2) && distBetween > 0) {
     totalDiff = read2 - read1;
-    slopePerMeter = totalDiff / distBetween;
+    const slope = totalDiff / distBetween;
+    slopePerMeter = slope * 1000;
     // H = R_near - d_near * slope
-    targetReading = read1 - dist1 * slopePerMeter;
+    targetReading = read1 - dist1 * slope;
   }
 
   return (
@@ -43,7 +44,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
         
         <div className="p-4 sm:p-6 overflow-y-auto space-y-6">
           <p className="text-sm text-slate-600">
-            Oblicz dokładną korektę w milimetrach, aby odczyty na obu miarkach (bliskiej i dalekiej) zgrały się w jednej linii równoległej do mierzonej powierzchni.
+            Obliczanie dokładnej odległości w milimetrach, aby odczyty na obu miarkach (bliskiej i dalekiej) zgrały się w jednej linii równoległej do mierzonej powierzchni.
           </p>
 
           <div className="space-y-4">
@@ -62,14 +63,14 @@ export function TheodoliteCalculator({ onClose }: Props) {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-500 mb-1">Odl. od teodolitu (m)</label>
+                  <label className="block text-xs font-medium text-slate-500 mb-1">Odl. od teodolitu (mm)</label>
                   <input
                     type="number"
                     inputMode="decimal"
                     value={d1}
                     onChange={e => setD1(e.target.value)}
                     className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
-                    placeholder="np. 2"
+                    placeholder="np. 2000"
                   />
                 </div>
               </div>
@@ -90,14 +91,14 @@ export function TheodoliteCalculator({ onClose }: Props) {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-500 mb-1">Baza / Odl. między miarkami (m)</label>
+                  <label className="block text-xs font-medium text-slate-500 mb-1">Baza / Odl. między miarkami (mm)</label>
                   <input
                     type="number"
                     inputMode="decimal"
                     value={dBetween}
                     onChange={e => setDBetween(e.target.value)}
                     className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
-                    placeholder="np. 8"
+                    placeholder="np. 8000"
                   />
                 </div>
               </div>
