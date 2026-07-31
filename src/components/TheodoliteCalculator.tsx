@@ -12,10 +12,16 @@ export function TheodoliteCalculator({ onClose }: Props) {
   const [dBetween, setDBetween] = useState<string>('');
   const [h2, setH2] = useState<string>('');
 
-  const dist1 = parseFloat(d1.replace(',', '.'));
-  const read1 = parseFloat(h1.replace(',', '.'));
-  const distBetween = parseFloat(dBetween.replace(',', '.'));
-  const read2 = parseFloat(h2.replace(',', '.'));
+  const cleanNumber = (val: string) => {
+    // Usunięcie spacji i zamiana przecinka na kropkę
+    const cleaned = val.replace(/\s/g, '').replace(',', '.');
+    return parseFloat(cleaned);
+  };
+
+  const dist1 = cleanNumber(d1);
+  const read1 = cleanNumber(h1);
+  const distBetween = cleanNumber(dBetween);
+  const read2 = cleanNumber(h2);
 
   let targetReading: number | null = null;
   let slopePerMeter: number | null = null;
@@ -56,7 +62,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1">Odczyt (mm)</label>
                   <input
-                    type="number"
+                    type="text"
                     inputMode="decimal"
                     value={h1}
                     onChange={e => setH1(e.target.value)}
@@ -67,7 +73,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1">Odl. od teodolitu (mm)</label>
                   <input
-                    type="number"
+                    type="text"
                     inputMode="decimal"
                     value={d1}
                     onChange={e => setD1(e.target.value)}
@@ -84,7 +90,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1">Odczyt (mm)</label>
                   <input
-                    type="number"
+                    type="text"
                     inputMode="decimal"
                     value={h2}
                     onChange={e => setH2(e.target.value)}
@@ -95,7 +101,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1">Baza / Odl. między miarkami (mm)</label>
                   <input
-                    type="number"
+                    type="text"
                     inputMode="decimal"
                     value={dBetween}
                     onChange={e => setDBetween(e.target.value)}
