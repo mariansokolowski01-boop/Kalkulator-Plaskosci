@@ -43,7 +43,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
         
         <div className="p-4 sm:p-6 overflow-y-auto space-y-6">
           <p className="text-sm text-slate-600">
-            Oblicz dokładną korektę w milimetrach, aby odczyty na obu miarkach (bliskiej i dalekiej) zgrały się w jednej linii równoległej do mierzonej powierzchni.
+            
           </p>
 
           <div className="space-y-4">
@@ -134,7 +134,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
               </div>
             ) : (
               <div className="text-center text-slate-500 text-sm py-4">
-                Wprowadź poprawne dane liczbowe, aby zobaczyć wynik.
+                
               </div>
             )}
           </div>
