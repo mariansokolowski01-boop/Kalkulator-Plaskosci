@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Calculator, AlertTriangle } from 'lucide-react';
+import { X, Calculator, ArrowRight } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 interface Props {
@@ -12,16 +12,10 @@ export function TheodoliteCalculator({ onClose }: Props) {
   const [dBetween, setDBetween] = useState<string>('');
   const [h2, setH2] = useState<string>('');
 
-  const cleanNumber = (val: string) => {
-    // Usunięcie spacji i zamiana przecinka na kropkę
-    const cleaned = val.replace(/\s/g, '').replace(',', '.');
-    return parseFloat(cleaned);
-  };
-
-  const dist1 = cleanNumber(d1);
-  const read1 = cleanNumber(h1);
-  const distBetween = cleanNumber(dBetween);
-  const read2 = cleanNumber(h2);
+  const dist1 = parseFloat(d1.replace(',', '.'));
+  const read1 = parseFloat(h1.replace(',', '.'));
+  const distBetween = parseFloat(dBetween.replace(',', '.'));
+  const read2 = parseFloat(h2.replace(',', '.'));
 
   let targetReading: number | null = null;
   let slopePerMeter: number | null = null;
@@ -29,13 +23,10 @@ export function TheodoliteCalculator({ onClose }: Props) {
 
   if (!isNaN(dist1) && !isNaN(read1) && !isNaN(distBetween) && !isNaN(read2) && distBetween > 0) {
     totalDiff = read2 - read1;
-    const slope = totalDiff / distBetween;
-    slopePerMeter = slope * 1000;
+    slopePerMeter = totalDiff / distBetween;
     // H = R_near - d_near * slope
-    targetReading = read1 - dist1 * slope;
+    targetReading = read1 - dist1 * slopePerMeter;
   }
-
-  const isSuspiciouslySmallBase = !isNaN(distBetween) && distBetween > 0 && distBetween < 100;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm sm:p-6 print:hidden">
@@ -52,7 +43,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
         
         <div className="p-4 sm:p-6 overflow-y-auto space-y-6">
           <p className="text-sm text-slate-600">
-            Obliczanie dokładnej odległości w milimetrach, aby odczyty na obu miarkach (bliskiej i dalekiej) zgrały się w jednej linii równoległej do mierzonej powierzchni.
+            Oblicz dokładną korektę w milimetrach, aby odczyty na obu miarkach (bliskiej i dalekiej) zgrały się w jednej linii równoległej do mierzonej powierzchni.
           </p>
 
           <div className="space-y-4">
@@ -62,23 +53,23 @@ export function TheodoliteCalculator({ onClose }: Props) {
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1">Odczyt (mm)</label>
                   <input
-                    type="text"
+                    type="number"
                     inputMode="decimal"
                     value={h1}
                     onChange={e => setH1(e.target.value)}
                     className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
-                    placeholder="0"
+                    placeholder="np. 357"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-500 mb-1">Odl. od teodolitu (mm)</label>
+                  <label className="block text-xs font-medium text-slate-500 mb-1">Odl. od teodolitu (m)</label>
                   <input
-                    type="text"
+                    type="number"
                     inputMode="decimal"
                     value={d1}
                     onChange={e => setD1(e.target.value)}
                     className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
-                    placeholder="0"
+                    placeholder="np. 2"
                   />
                 </div>
               </div>
@@ -90,38 +81,26 @@ export function TheodoliteCalculator({ onClose }: Props) {
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1">Odczyt (mm)</label>
                   <input
-                    type="text"
+                    type="number"
                     inputMode="decimal"
                     value={h2}
                     onChange={e => setH2(e.target.value)}
                     className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
-                    placeholder="0"
+                    placeholder="np. 645"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-500 mb-1">Baza / Odl. między miarkami (mm)</label>
+                  <label className="block text-xs font-medium text-slate-500 mb-1">Baza / Odl. między miarkami (m)</label>
                   <input
-                    type="text"
+                    type="number"
                     inputMode="decimal"
                     value={dBetween}
                     onChange={e => setDBetween(e.target.value)}
-                    className={cn(
-                      "w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:outline-none",
-                      isSuspiciouslySmallBase ? "border-amber-400 focus:ring-amber-500 bg-amber-50" : "border-slate-300 focus:ring-teal-500"
-                    )}
-                    placeholder="0"
+                    className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    placeholder="np. 8"
                   />
                 </div>
               </div>
-              
-              {isSuspiciouslySmallBase && (
-                <div className="mt-3 flex items-start space-x-2 text-amber-700 bg-amber-100/50 p-2 rounded text-xs font-medium border border-amber-200">
-                  <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
-                  <p>
-                    Wpisałeś bazę <strong>{distBetween} mm</strong>. Jeśli miałeś na myśli metry, wpisz <strong>{distBetween * 1000}</strong>.
-                  </p>
-                </div>
-              )}
             </div>
           </div>
 
