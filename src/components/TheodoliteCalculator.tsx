@@ -7,10 +7,10 @@ interface Props {
 }
 
 export function TheodoliteCalculator({ onClose }: Props) {
-  const [d1, setD1] = useState<string>('0');
-  const [h1, setH1] = useState<string>('0');
-  const [dBetween, setDBetween] = useState<string>('0');
-  const [h2, setH2] = useState<string>('0');
+  const [d1, setD1] = useState<string>('');
+  const [h1, setH1] = useState<string>('');
+  const [dBetween, setDBetween] = useState<string>('');
+  const [h2, setH2] = useState<string>('');
 
   const dist1 = parseFloat(d1.replace(',', '.'));
   const read1 = parseFloat(h1.replace(',', '.'));
