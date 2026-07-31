@@ -128,7 +128,7 @@ export function TheodoliteCalculator({ onClose }: Props) {
                     {targetReading.toFixed(1)} mm
                   </div>
                   <p className="text-xs text-slate-500 mt-3 max-w-[280px] mx-auto">
-                    Przestaw teodolit tak, aby odczyt na <strong>obu miarkach</strong> wynosił dokładnie {targetReading.toFixed(1)} mm.
+                    
                   </p>
                 </div>
               </div>
